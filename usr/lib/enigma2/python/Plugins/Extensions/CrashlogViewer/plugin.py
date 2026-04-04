@@ -26,9 +26,8 @@ from Screens.Screen import Screen
 
 from Tools.Directories import SCOPE_PLUGINS, resolveFilename
 from Tools.LoadPixmap import LoadPixmap
+from . import __version__ as version
 
-
-version = '1.7'
 path_folder_log = '/media/hdd/'
 
 
@@ -332,8 +331,7 @@ class CrashLogScreen(Screen):
         try:
             base_dir = item[3]
             crashfile = str(base_dir)
-            self.session.openWithCallback(
-                self.CfgMenu, CrashLogView, crashfile)
+            self.session.openWithCallback(self.CfgMenu, CrashLogView, crashfile)
         except (IndexError, TypeError, KeyError) as e:
             print('CrashLogScreen error to select: %s' % e)
             crashfile = " "
