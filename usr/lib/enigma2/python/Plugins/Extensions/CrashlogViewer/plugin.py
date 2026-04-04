@@ -331,7 +331,8 @@ class CrashLogScreen(Screen):
         try:
             base_dir = item[3]
             crashfile = str(base_dir)
-            self.session.openWithCallback(self.CfgMenu, CrashLogView, crashfile)
+            self.session.openWithCallback(
+                self.CfgMenu, CrashLogView, crashfile)
         except (IndexError, TypeError, KeyError) as e:
             print('CrashLogScreen error to select: %s' % e)
             crashfile = " "
