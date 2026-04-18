@@ -229,14 +229,23 @@ class CrashLogScreen(Screen):
         # Choose icon based on screen width
         sz_w = getDesktop(0).size().width()
         if sz_w == 2560:
-            icon = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS,
-                              "Extensions/CrashlogViewer/images/crashminiwq.png"))
+            icon = LoadPixmap(
+                cached=True,
+                path=resolveFilename(
+                    SCOPE_PLUGINS,
+                    "Extensions/CrashlogViewer/images/crashminiwq.png"))
         elif sz_w == 1920:
-            icon = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS,
-                              "Extensions/CrashlogViewer/images/crashmini.png"))
+            icon = LoadPixmap(
+                cached=True,
+                path=resolveFilename(
+                    SCOPE_PLUGINS,
+                    "Extensions/CrashlogViewer/images/crashmini.png"))
         else:
-            icon = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS,
-                              "Extensions/CrashlogViewer/images/crashmini1.png"))
+            icon = LoadPixmap(
+                cached=True,
+                path=resolveFilename(
+                    SCOPE_PLUGINS,
+                    "Extensions/CrashlogViewer/images/crashmini1.png"))
 
         for path in log_files:
             try:
@@ -250,7 +259,8 @@ class CrashLogScreen(Screen):
                     size_str = f"{size_bytes / (1024 * 1024):.1f} MB"
 
                 mtime = st.st_mtime
-                date_str = time.strftime("%Y-%m-%d %H:%M", time.localtime(mtime))
+                date_str = time.strftime(
+                    "%Y-%m-%d %H:%M", time.localtime(mtime))
 
                 display_tuple = (basename(path),
                                  f"{_('Size')}: {size_str} - {_('Date')}: {date_str}",
@@ -271,7 +281,8 @@ class CrashLogScreen(Screen):
             self.show_temp_message(_("No file selected"), 1500)
             return
         file_path = str(item[3])
-        self.session.openWithCallback(self.refresh_menu, CrashLogView, file_path)
+        self.session.openWithCallback(
+            self.refresh_menu, CrashLogView, file_path)
 
     def page_up(self):
         if self.in_info_mode:
@@ -344,7 +355,8 @@ class CrashLogScreen(Screen):
         if self.timer and self.timer.isActive():
             self.timer.stop()
         self.timer = eTimer()
-        self.timer.callback.append(lambda: self._set_title_safe(original_title))
+        self.timer.callback.append(
+            lambda: self._set_title_safe(original_title))
         self.timer.start(ms, True)
 
     def _set_title_safe(self, title):
@@ -547,7 +559,8 @@ def Plugins(**kwargs):
     return PluginDescriptor(
         name=_("Crashlog Viewer") + " ver. " + version,
         description=_("View | Remove Crashlog files"),
-        where=[PluginDescriptor.WHERE_PLUGINMENU, PluginDescriptor.WHERE_EXTENSIONSMENU],
+        where=[
+            PluginDescriptor.WHERE_PLUGINMENU,
+            PluginDescriptor.WHERE_EXTENSIONSMENU],
         icon="crash.png",
-        fnc=main
-    )
+        fnc=main)
