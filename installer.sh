@@ -1,7 +1,7 @@
 #!/bin/bash
 ## setup command=wget -q --no-check-certificate https://raw.githubusercontent.com/Belfagor2005/CrashlogViewer/main/installer.sh -O - | /bin/bash
 
-version='1.7'
+version='1.9'
 changelog="--add Script"
 
 TMPPATH=/tmp/CrashlogViewer-install
