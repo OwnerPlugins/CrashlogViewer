@@ -1,19 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-# updated Lululla 05/06/2023
-# updated Lululla 30/04/2024
-# updated Lululla 30/08/2024
-# updated Lululla 22/09/2024
-# updated Lululla 17/11/2024
-# updated Lululla 26/05/2025
-# updated Lululla 17/12/2025
-# by 2boom 4bob@ua.fm
+import glob
+import os
+import time
+from os.path import exists, isfile, basename
 
-import gettext
-from os import remove, popen
-from os.path import exists
-from os.path import isfile, basename
 from enigma import getDesktop, eTimer
 from Components.config import config
 from Components.ActionMap import ActionMap
@@ -21,24 +13,15 @@ from Components.ScrollLabel import ScrollLabel
 from Components.Sources.List import List
 from Components.Sources.StaticText import StaticText
 from Plugins.Plugin import PluginDescriptor
-
 from Screens.Screen import Screen
-
 from Tools.Directories import SCOPE_PLUGINS, resolveFilename
 from Tools.LoadPixmap import LoadPixmap
-from . import __version__ as version
 
-path_folder_log = '/media/hdd/'
-
-
-def _(txt):
-    t = gettext.dgettext("CrashlogViewer", txt)
-    if t == txt:
-        t = gettext.gettext(txt)
-    return t
+from . import _, __version__ as version
 
 
 def isMountReadonly(mnt):
+    """Check if a mount point is read-only."""
     try:
         with open("/proc/mounts", "r") as f:
             for line in f:
@@ -48,33 +31,21 @@ def isMountReadonly(mnt):
                 device, mp, fs, flags = parts[:4]
                 if mp == mnt:
                     return "ro" in flags
-    except IOError as e:
-        print("I/O error: %s" % str(e))
-    except Exception as err:
-        print("Error: %s" % str(err))
+    except Exception as e:
+        print("isMountReadonly error: %s" % str(e))
     return False
 
 
 def get_log_path():
-    """Get the primary log directory path"""
+    """Get the primary log directory from Enigma2 config, or fallback."""
     try:
-        path_folder_log = config.crash.debug_path.value
-        if path_folder_log and exists(
-                path_folder_log) and not isMountReadonly(path_folder_log):
-            return path_folder_log.rstrip('/') + '/'
+        path = config.crash.debug_path.value
+        if path and exists(path) and not isMountReadonly(path):
+            return path.rstrip('/') + '/'
     except (KeyError, AttributeError):
         pass
 
-    possible_paths = paths()
-    for path in possible_paths:
-        if exists(path) and not isMountReadonly(path):
-            return path.rstrip('/') + '/'
-
-    return "/tmp/"
-
-
-def paths():
-    return [
+    for path in [
         "/media/hdd",
         "/media/usb",
         "/media/mmc",
@@ -84,16 +55,16 @@ def paths():
         "/media/usb/logs",
         "/ba/",
         "/ba/logs",
-        "/tmp/"]
+        "/tmp/"
+    ]:
+        if exists(path) and not isMountReadonly(path):
+            return path.rstrip('/') + '/'
+    return "/tmp/"
 
 
 def find_log_files():
-    """Find all crash log files - FIXED VERSION"""
-    import glob
-
+    """Return a list of all crash log files (full paths)."""
     log_files = []
-
-    # Search patterns that include /tmp
     search_patterns = [
         "/tmp/*crash*.log",
         "/tmp/*.log",
@@ -108,54 +79,36 @@ def find_log_files():
         "/ba/logs/*crash*.log"
     ]
 
-    # Get primary path
-    primary_path = get_log_path()
-    if primary_path and primary_path not in ["/tmp/", "/home/root/"]:
+    primary = get_log_path()
+    if primary and primary not in ["/tmp/", "/home/root/"]:
         search_patterns.extend([
-            "%s*crash*.log" % primary_path,
-            "%slogs/*crash*.log" % primary_path,
-            "%stwisted.log" % primary_path
+            primary + "*crash*.log",
+            primary + "logs/*crash*.log",
+            primary + "twisted.log"
         ])
 
-    # Search all patterns
     for pattern in search_patterns:
         try:
-            found_files = glob.glob(pattern)
-            for file_path in found_files:
-                # Check if it's a file and not a directory
-                if isfile(file_path) and file_path not in log_files:
-                    # Check if it's really a crash log
-                    filename = basename(file_path).lower()
-                    if ('crash' in filename or
-                            'error' in filename or
-                            'log' in filename):  # Accept all .log files
-                        log_files.append(file_path)
-        except BaseException:
+            for path in glob.glob(pattern):
+                if isfile(path) and path not in log_files:
+                    # Accept all .log files (avoid filtering too strictly)
+                    log_files.append(path)
+        except Exception:
             pass
 
-    # Also check specific known files
-    specific_files = [
+    # Additional known specific files
+    specific = [
         "/tmp/enigma2_crash.log",
         "/home/root/enigma2_crash.log",
         "/tmp/Enigma2-Crash.log",
         "/tmp/crash.log",
         "/tmp/crash_log.log"
     ]
-
-    for file_path in specific_files:
-        if isfile(file_path) and file_path not in log_files:
-            log_files.append(file_path)
+    for path in specific:
+        if isfile(path) and path not in log_files:
+            log_files.append(path)
 
     return log_files
-
-
-def delete_log_files(files):
-    for file in files:
-        try:
-            remove(file)
-            print('CrashLogScreen file deletedt: %s' % file)
-        except OSError as e:
-            print("Error while deleting %s error %s:" % (file, str(e)))
 
 
 class CrashLogScreen(Screen):
@@ -175,9 +128,9 @@ class CrashLogScreen(Screen):
         <widget source="menu" render="Listbox" position="80,67" size="1137,781" scrollbarMode="showOnDemand">
         <convert type="TemplatedMultiContent">
         {"template": [
-            MultiContentEntryText(pos = (80, 5), size = (580, 46), font=0, flags = RT_HALIGN_LEFT | RT_VALIGN_CENTER, text = 0), # index 2 is the Menu Titel
-            MultiContentEntryText(pos = (80, 55), size = (580, 38), font=1, flags = RT_HALIGN_LEFT | RT_VALIGN_CENTER, text = 1), # index 3 is the Description
-            MultiContentEntryPixmapAlphaTest(pos = (5, 35), size = (51, 40), png = 2), # index 4 is the pixmap
+            MultiContentEntryText(pos = (80, 5), size = (580, 46), font=0, flags = RT_HALIGN_LEFT | RT_VALIGN_CENTER, text = 0),
+            MultiContentEntryText(pos = (80, 55), size = (580, 38), font=1, flags = RT_HALIGN_LEFT | RT_VALIGN_CENTER, text = 1),
+            MultiContentEntryPixmapAlphaTest(pos = (5, 35), size = (51, 40), png = 2),
                 ],
         "fonts": [gFont("Regular", 42),gFont("Regular", 34)],
         "itemHeight": 100
@@ -186,7 +139,6 @@ class CrashLogScreen(Screen):
             </widget>
         </screen>
         """
-
     elif sz_w == 1920:
         skin = """
         <screen name="crashlogscreen" position="center,center" size="1000,880" title="View or Remove Crashlog files">
@@ -202,9 +154,9 @@ class CrashLogScreen(Screen):
         <widget source="menu" render="Listbox" position="20,10" size="961,781" scrollbarMode="showOnDemand">
         <convert type="TemplatedMultiContent">
         {"template": [
-            MultiContentEntryText(pos = (70, 2), size = (580, 34), font=0, flags = RT_HALIGN_LEFT, text = 0), # index 2 is the Menu Titel
-            MultiContentEntryText(pos = (80, 29), size = (580, 30), font=1, flags = RT_HALIGN_LEFT, text = 1), # index 3 is the Description
-            MultiContentEntryPixmapAlphaTest(pos = (5, 15), size = (51, 40), png = 2), # index 4 is the pixmap
+            MultiContentEntryText(pos = (70, 2), size = (580, 34), font=0, flags = RT_HALIGN_LEFT, text = 0),
+            MultiContentEntryText(pos = (80, 29), size = (580, 30), font=1, flags = RT_HALIGN_LEFT, text = 1),
+            MultiContentEntryPixmapAlphaTest(pos = (5, 15), size = (51, 40), png = 2),
                 ],
         "fonts": [gFont("Regular", 30),gFont("Regular", 26)],
         "itemHeight": 70
@@ -228,9 +180,9 @@ class CrashLogScreen(Screen):
         <widget source="menu" render="Listbox" position="13,6" size="613,517" scrollbarMode="showOnDemand">
         <convert type="TemplatedMultiContent">
         {"template": [
-            MultiContentEntryText(pos = (46, 1), size = (386, 22), font=0, flags = RT_HALIGN_LEFT, text = 0), # index 2 is the Menu Titel
-            MultiContentEntryText(pos = (53, 19), size = (386, 20), font=1, flags = RT_HALIGN_LEFT, text = 1), # index 3 is the Description
-            MultiContentEntryPixmapAlphaTest(pos = (3, 10), size = (34, 26), png = 2), # index 4 is the pixmap
+            MultiContentEntryText(pos = (46, 1), size = (386, 22), font=0, flags = RT_HALIGN_LEFT, text = 0),
+            MultiContentEntryText(pos = (53, 19), size = (386, 20), font=1, flags = RT_HALIGN_LEFT, text = 1),
+            MultiContentEntryPixmapAlphaTest(pos = (3, 10), size = (34, 26), png = 2),
                 ],
         "fonts": [gFont("Regular", 18),gFont("Regular", 16)],
         "itemHeight": 50
@@ -246,215 +198,182 @@ class CrashLogScreen(Screen):
         self["shortcuts"] = ActionMap(
             ["ShortcutActions", "WizardActions", "EPGSelectActions"],
             {
-                "ok": self.Ok,
+                "ok": self.ok,
                 "cancel": self.exit,
                 "back": self.exit,
                 "red": self.exit,
-                "green": self.Ok,
-                "yellow": self.YellowKey,
-                "blue": self.BlueKey,
-                "info": self.infoKey,
-                "up": self.pageUp,
-                "down": self.pageDown,
+                "green": self.ok,
+                "yellow": self.yellow_key,
+                "blue": self.blue_key,
+                "info": self.info_key,
+                "up": self.page_up,
+                "down": self.page_down,
             }
         )
         self["Redkey"] = StaticText(_("Close"))
         self["Greenkey"] = StaticText(_("View"))
         self["Yellowkey"] = StaticText(_("Remove"))
         self["Bluekey"] = StaticText(_("Remove All"))
-        self.in_confirm_mode = False
-        self.showing_info = False
+
+        self.in_info_mode = False
+        self.timer = None
         self.list = []
         self["menu"] = List(self.list)
-        self.CfgMenu()
+        self.refresh_menu()
 
-    def CfgMenu(self):
+    def refresh_menu(self):
+        """Build the list of crash logs using find_log_files() and os.stat."""
         self.list = []
-        path_folder_log = "/tmp/"
         log_files = find_log_files()
-        if log_files:
-            paths_to_search = " ".join(log_files)
-        else:
-            paths_to_search = (
-                "%s*crash*.log "
-                "%slogs/*crash*.log "
-                "/home/root/*crash*.log "
-                "/home/root/logs/*crash*.log "
-                "%stwisted.log "
-                "/media/usb/logs/*crash*.log "
-                "/media/usb/*crash*.log "
-                "/media/hdd/logs/*crash*.log "
-                "/media/mmc/*crash*.log "
-                "/media/hdd/*crash*.log "
-                "/ba/*crash*.log "
-                "/ba/logs/*crash*.log"
-            ) % (path_folder_log, path_folder_log, path_folder_log)
 
-        crashfiles = popen("ls -lh " + paths_to_search).read()
+        # Choose icon based on screen width
         sz_w = getDesktop(0).size().width()
         if sz_w == 2560:
-            minipng = LoadPixmap(
-                cached=True,
-                path=resolveFilename(
-                    SCOPE_PLUGINS,
-                    "Extensions/CrashlogViewer/images/crashminiwq.png"))
+            icon = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS,
+                              "Extensions/CrashlogViewer/images/crashminiwq.png"))
         elif sz_w == 1920:
-            minipng = LoadPixmap(
-                cached=True,
-                path=resolveFilename(
-                    SCOPE_PLUGINS,
-                    "Extensions/CrashlogViewer/images/crashmini.png"))
+            icon = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS,
+                              "Extensions/CrashlogViewer/images/crashmini.png"))
         else:
-            minipng = LoadPixmap(
-                cached=True,
-                path=resolveFilename(
-                    SCOPE_PLUGINS,
-                    "Extensions/CrashlogViewer/images/crashmini1.png"))
+            icon = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS,
+                              "Extensions/CrashlogViewer/images/crashmini1.png"))
 
-        for line in crashfiles.splitlines():
-            item = line.split()
-            if len(item) >= 9:
-                file_size = item[4]
-                file_date = " ".join(item[5:8])
-                file_name = item[8]
-                display_name = (file_name.split("/")[-1],
-                                "Dimensione: %s - Data: %s" % (file_size, file_date),
-                                minipng,
-                                file_name)
-                if display_name not in self.list:
-                    self.list.append(display_name)
+        for path in log_files:
+            try:
+                st = os.stat(path)
+                size_bytes = st.st_size
+                if size_bytes < 1024:
+                    size_str = f"{size_bytes} B"
+                elif size_bytes < 1024 * 1024:
+                    size_str = f"{size_bytes / 1024:.1f} KB"
+                else:
+                    size_str = f"{size_bytes / (1024 * 1024):.1f} MB"
+
+                mtime = st.st_mtime
+                date_str = time.strftime("%Y-%m-%d %H:%M", time.localtime(mtime))
+
+                display_tuple = (basename(path),
+                                 f"{_('Size')}: {size_str} - {_('Date')}: {date_str}",
+                                 icon,
+                                 path)
+                self.list.append(display_tuple)
+            except Exception as e:
+                print(f"Error reading {path}: {e}")
 
         self["menu"].setList(self.list)
 
-    def Ok(self):
-        item = self["menu"].getCurrent()
-        try:
-            base_dir = item[3]
-            crashfile = str(base_dir)
-            self.session.openWithCallback(
-                self.CfgMenu, CrashLogView, crashfile)
-        except (IndexError, TypeError, KeyError) as e:
-            print('CrashLogScreen error to select: %s' % e)
-            crashfile = " "
-
-    def pageUp(self):
-        current_index = self["menu"].getIndex()
-        if current_index > 0:
-            self["menu"].setIndex(current_index - 1)
-
-    def pageDown(self):
-        current_index = self["menu"].getIndex()
-        list_length = len(self.list)
-        if current_index < list_length - 1:
-            self["menu"].setIndex(current_index + 1)
-
-    def YellowKey(self):
-        if self.in_confirm_mode:
+    def ok(self):
+        if self.in_info_mode:
+            self.exit_info_mode()
             return
-
         item = self["menu"].getCurrent()
-
-        if not item or len(item) < 4 or not item[3]:
-            self.showTempMessage(_("No file selected"), 1500)
+        if not item or len(item) < 4:
+            self.show_temp_message(_("No file selected"), 1500)
             return
-
         file_path = str(item[3])
+        self.session.openWithCallback(self.refresh_menu, CrashLogView, file_path)
 
-        if not exists(file_path):
-            self.showTempMessage(_("File already removed"), 1500)
-            self.CfgMenu()
+    def page_up(self):
+        if self.in_info_mode:
             return
+        idx = self["menu"].getIndex()
+        if idx > 0:
+            self["menu"].setIndex(idx - 1)
 
+    def page_down(self):
+        if self.in_info_mode:
+            return
+        idx = self["menu"].getIndex()
+        if idx < len(self.list) - 1:
+            self["menu"].setIndex(idx + 1)
+
+    def yellow_key(self):
+        if self.in_info_mode:
+            return
+        item = self["menu"].getCurrent()
+        if not item or len(item) < 4:
+            self.show_temp_message(_("No file selected"), 1500)
+            return
+        file_path = str(item[3])
+        if not exists(file_path):
+            self.show_temp_message(_("File already removed"), 1500)
+            self.refresh_menu()
+            return
         try:
-            remove(file_path)
-
+            os.remove(file_path)
             original_title = self.getTitle()
             self.setTitle(_("Removed: %s") % basename(file_path))
-
-            self.CfgMenu()
-
-            timer = eTimer()
-            timer.callback.append(lambda: self.setTitle(original_title))
-            timer.start(1500, True)
-
+            self.refresh_menu()
+            self._restore_title_after(1500, original_title)
         except Exception as e:
             original_title = self.getTitle()
             self.setTitle(_("Error: %s") % str(e))
+            self._restore_title_after(2000, original_title)
 
-            timer = eTimer()
-            timer.callback.append(lambda: self.setTitle(original_title))
-            timer.start(2000, True)
-
-    def BlueKey(self):
-        """Delete all crash log files"""
-        if self.in_confirm_mode:
+    def blue_key(self):
+        if self.in_info_mode:
             return
-
-        try:
-            log_files = find_log_files()
-            if not log_files:
-                self.showTempMessage(_("No crash logs found"), 2000)
-                return
-
-            original_title = self.getTitle()
-
-            deleted = 0
-            for file_path in log_files:
-                try:
-                    if exists(file_path):
-                        remove(file_path)
-                        deleted += 1
-                except Exception:
-                    pass
-
-            if deleted > 0:
-                self.setTitle(_("Deleted %d files") % deleted)
-            else:
-                self.setTitle(_("No files deleted"))
-
-            self.CfgMenu()
-
-            timer = eTimer()
-            timer.callback.append(lambda: self.setTitle(original_title))
-            timer.start(1500, True)
-
-        except Exception as e:
-            original_title = self.getTitle()
-            self.setTitle(_("Error: %s") % str(e))
-            self.CfgMenu()
-            timer = eTimer()
-            timer.callback.append(lambda: self.setTitle(original_title))
-            timer.start(2000, True)
-
-    def showTempMessage(self, message, duration=2000):
-        if self.in_confirm_mode:
+        log_files = find_log_files()
+        if not log_files:
+            self.show_temp_message(_("No crash logs found"), 2000)
             return
-
+        deleted = 0
+        for path in log_files:
+            try:
+                if exists(path):
+                    os.remove(path)
+                    deleted += 1
+            except Exception:
+                pass
         original_title = self.getTitle()
-        self.setTitle(message)
+        if deleted > 0:
+            self.setTitle(_("Deleted %d files") % deleted)
+        else:
+            self.setTitle(_("No files deleted"))
+        self.refresh_menu()
+        self._restore_title_after(1500, original_title)
 
-        timer = eTimer()
-        timer.callback.append(lambda: self.setTitle(original_title))
-        timer.start(duration, True)
-
-    def infoKey(self):
-        if self.in_confirm_mode:
+    def show_temp_message(self, message, duration):
+        if self.in_info_mode:
             return
+        original = self.getTitle()
+        self.setTitle(message)
+        self._restore_title_after(duration, original)
 
-        original_list = self.list.copy()
+    def _restore_title_after(self, ms, original_title):
+        if self.timer and self.timer.isActive():
+            self.timer.stop()
+        self.timer = eTimer()
+        self.timer.callback.append(lambda: self._set_title_safe(original_title))
+        self.timer.start(ms, True)
 
-        info_items = []
+    def _set_title_safe(self, title):
+        if self and hasattr(self, 'setTitle'):
+            self.setTitle(title)
 
-        info_items.append(("=" * 50, "", None, ""))
-        info_items.append(("CRASHLOG VIEWER - INFO", "", None, ""))
-        info_items.append(("=" * 50, "", None, ""))
-        info_items.append(("Version: " + version, "", None, ""))
-        info_items.append(("Developer: 2boom", "", None, ""))
-        info_items.append(("Modifier: Evg77734", "", None, ""))
-        info_items.append(("Update from Lululla", "", None, ""))
-        info_items.append(("=" * 50, "", None, ""))
-        info_items.append(("Press OK or RED to return", "", None, ""))
+    def info_key(self):
+        if self.in_info_mode:
+            return
+        self.in_info_mode = True
 
+        # Store original list and button texts
+        self.original_list = self.list.copy()
+        self.original_red = self["Redkey"].getText()
+        self.original_green = self["Greenkey"].getText()
+        self.original_yellow = self["Yellowkey"].getText()
+        self.original_blue = self["Bluekey"].getText()
+
+        info_items = [
+            ("=" * 50, "", None, ""),
+            ("CRASHLOG VIEWER - INFO", "", None, ""),
+            ("=" * 50, "", None, ""),
+            (f"{_('Version')}: {version}", "", None, ""),
+            (f"{_('Developer')}: 2boom", "", None, ""),
+            (f"{_('Modifier')}: Evg77734", "", None, ""),
+            (f"{_('Update from')}: Lululla", "", None, ""),
+            ("=" * 50, "", None, ""),
+            (_("Press OK or RED to return"), "", None, "")
+        ]
         self["menu"].setList(info_items)
 
         self["Redkey"].setText(_("Back"))
@@ -462,42 +381,44 @@ class CrashLogScreen(Screen):
         self["Yellowkey"].setText("")
         self["Bluekey"].setText("")
 
-        self.showing_info = True
-
+        # Remap keys temporarily
         self["shortcuts"].actions.update({
-            "ok": self.returnFromInfo,
-            "cancel": self.returnFromInfo,
-            "red": self.returnFromInfo,
-            "green": lambda: None,  # Disabilita
-            "yellow": lambda: None,  # Disabilita
-            "blue": lambda: None,   # Disabilita
-            "info": lambda: None    # Disabilita
+            "ok": self.exit_info_mode,
+            "cancel": self.exit_info_mode,
+            "red": self.exit_info_mode,
+            "green": lambda: None,
+            "yellow": lambda: None,
+            "blue": lambda: None,
+            "info": lambda: None,
+            "up": lambda: None,
+            "down": lambda: None,
         })
 
-    def returnFromInfo(self):
-        if hasattr(self, 'showing_info') and self.showing_info:
-            self.showing_info = False
-            self.CfgMenu()
-
-            self["Redkey"].setText(_("Close"))
-            self["Greenkey"].setText(_("View"))
-            self["Yellowkey"].setText(_("Remove"))
-            self["Bluekey"].setText(_("Remove All"))
-
-            self["shortcuts"].actions.update({
-                "ok": self.Ok,
-                "cancel": self.exit,
-                "back": self.exit,
-                "red": self.exit,
-                "green": self.Ok,
-                "yellow": self.YellowKey,
-                "blue": self.BlueKey,
-                "info": self.infoKey,
-                "up": self.pageUp,
-                "down": self.pageDown,
-            })
+    def exit_info_mode(self):
+        if not self.in_info_mode:
+            return
+        self.in_info_mode = False
+        self.refresh_menu()
+        self["Redkey"].setText(self.original_red)
+        self["Greenkey"].setText(self.original_green)
+        self["Yellowkey"].setText(self.original_yellow)
+        self["Bluekey"].setText(self.original_blue)
+        self["shortcuts"].actions.update({
+            "ok": self.ok,
+            "cancel": self.exit,
+            "back": self.exit,
+            "red": self.exit,
+            "green": self.ok,
+            "yellow": self.yellow_key,
+            "blue": self.blue_key,
+            "info": self.info_key,
+            "up": self.page_up,
+            "down": self.page_down,
+        })
 
     def exit(self):
+        if self.timer and self.timer.isActive():
+            self.timer.stop()
         self.close()
 
 
@@ -510,8 +431,8 @@ class CrashLogView(Screen):
         <widget source="Greenkey" render="Label" position="266,919" size="250,45" zPosition="11" font="Regular; 30" valign="center" halign="center" backgroundColor="#050c101b" transparent="1" foregroundColor="white" />
         <eLabel backgroundColor="#00ff0000" position="20,963" size="250,6" zPosition="12" />
         <eLabel backgroundColor="#0000ff00" position="270,963" size="250,6" zPosition="12" />
-        <widget name="text" position="10,70" size="1860,630" font="Console; 24" text="text" /> <!-- Mostra il log completo -->
-        <widget name="text2" position="10,720" size="1860,190" font="Console; 26" foregroundColor="#ff0000" /> <!-- Mostra le linee di errore -->
+        <widget name="text" position="10,70" size="1860,630" font="Console; 24" text="text" />
+        <widget name="text2" position="10,720" size="1860,190" font="Console; 26" foregroundColor="#ff0000" />
         <eLabel position="10,710" size="1860,2" backgroundColor="#555555" zPosition="1" />
         </screen>
         """
@@ -528,43 +449,43 @@ class CrashLogView(Screen):
         </screen>
         """
 
-    def __init__(self, session, Crashfile):
+    def __init__(self, session, crashfile):
         self.session = session
         Screen.__init__(self, session)
-        self.crashfile = Crashfile
-        self.setTitle("View Crashlog file: " + basename(Crashfile))
-        self.current_view = "full"  # "full" o "error"
+        self.crashfile = crashfile
+        self.setTitle(_("View Crashlog file: %s") % basename(crashfile))
+        self.current_view = "full"   # "full" or "error"
         self.full_text = ""
         self.error_text = ""
+
         self["actions"] = ActionMap(
             ["DirectionActions", "ColorActions", "OkCancelActions"],
             {
                 "cancel": self.exit,
                 "ok": self.exit,
                 "red": self.exit,
-                "green": self.switchView,
-                "up": self.pageUp,
-                "down": self.pageDown,
-                "left": self.pageUp,
-                "right": self.pageDown
+                "green": self.switch_view,
+                "up": self.page_up,
+                "down": self.page_down,
+                "left": self.page_up,
+                "right": self.page_down
             }
         )
         self["Redkey"] = StaticText(_("Close"))
         self["Greenkey"] = StaticText(_("Error Only"))
         self["text"] = ScrollLabel("")
         self["text2"] = ScrollLabel("")
-        self.onLayoutFinish.append(self.listcrah)
+        self.onLayoutFinish.append(self.load_log)
 
-    def pageUp(self):
+    def page_up(self):
         self["text"].pageUp()
         self["text2"].pageUp()
 
-    def pageDown(self):
+    def page_down(self):
         self["text"].pageDown()
         self["text2"].pageDown()
 
-    def switchView(self):
-        """Switch between full log (top) and error only (bottom)"""
+    def switch_view(self):
         if self.current_view == "full":
             self.current_view = "error"
             self["text"].hide()
@@ -582,34 +503,33 @@ class CrashLogView(Screen):
     def exit(self):
         self.close()
 
-    def listcrah(self):
+    def load_log(self):
         try:
-            with open(self.crashfile, "r") as crashfile:
-                content = crashfile.read()
-                self.full_text = content
+            with open(self.crashfile, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+            self.full_text = content
 
-                lines = content.split('\n')
-                error_lines = []
-                for i, line in enumerate(lines):
-                    if "Traceback (most recent call last):" in line or "Backtrace:" in line:
-                        for j in range(i, min(i + 20, len(lines))):
-                            error_lines.append(lines[j])
-                        break
+            # Try to extract traceback
+            lines = content.splitlines()
+            error_lines = []
+            for i, line in enumerate(lines):
+                if "Traceback (most recent call last):" in line or "Backtrace:" in line:
+                    for j in range(i, min(i + 20, len(lines))):
+                        error_lines.append(lines[j])
+                    break
+            if not error_lines:
+                for line in lines:
+                    if "Error:" in line or "Exception:" in line or "FATAL" in line:
+                        error_lines.append(line)
+            if not error_lines:
+                error_lines = [_("No specific error trace found in log")]
 
-                if not error_lines:
-                    for line in lines:
-                        if "Error:" in line or "Exception:" in line or "FATAL" in line:
-                            error_lines.append(line)
-
-                if not error_lines:
-                    error_lines = ["No specific error trace found in log"]
-
-                self.error_text = '\n'.join(error_lines)
+            self.error_text = "\n".join(error_lines)
 
         except Exception as e:
-            error_msg = "Error opening file: %s" % str(e)
-            self.full_text = error_msg
-            self.error_text = error_msg
+            msg = _("Error opening file: %s") % str(e)
+            self.full_text = msg
+            self.error_text = msg
 
         self["text"].setText(self.full_text)
         self["text2"].setText(self.error_text)
@@ -625,13 +545,9 @@ def main(session, **kwargs):
 
 def Plugins(**kwargs):
     return PluginDescriptor(
-        name=(
-            _("Crashlog  Viewer") +
-            " ver. " +
-            version),
+        name=_("Crashlog Viewer") + " ver. " + version,
         description=_("View | Remove Crashlog files"),
-        where=[
-            PluginDescriptor.WHERE_PLUGINMENU,
-            PluginDescriptor.WHERE_EXTENSIONSMENU],
+        where=[PluginDescriptor.WHERE_PLUGINMENU, PluginDescriptor.WHERE_EXTENSIONSMENU],
         icon="crash.png",
-        fnc=main)
+        fnc=main
+    )
