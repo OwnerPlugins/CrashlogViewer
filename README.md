@@ -1,11 +1,14 @@
-# Crashlog Viewer for Enigma2 Image
+<h1 align="center">🗑️ Crashlog Viewer for Enigma2 Image</h1>
 
-![Visitors](https://komarev.com/ghpvc/?username=Belfagor2005)
-![Plugin CrashlogViewer](https://github.com/Belfagor2005/CrashlogViewer/blob/main/usr/lib/enigma2/python/Plugins/Extensions/CrashlogViewer/crash.png?raw=true)
-[![Version](https://img.shields.io/badge/Version-1.9-blue.svg)](https://github.com/Belfagor2005/Calendar)
-[![Python package](https://github.com/Belfagor2005/CrashlogViewer/actions/workflows/pylint.yml/badge.svg)](https://github.com/Belfagor2005/CrashlogViewer/actions/workflows/pylint.yml) 
-![Screen CrashlogViewer](https://github.com/Belfagor2005/CrashlogViewer/blob/main/screen/screenshot.png?raw=true)
+![Visitors](https://komarev.com/ghpvc/?username=Belfagor2005&label=Repository%20Views&color=blueviolet)
+![CrashlogViewer](https://github.com/Belfagor2005/CrashlogViewer/blob/main/usr/lib/enigma2/python/Plugins/Extensions/CrashlogViewer/crash.png?raw=true)
+[![Version](https://img.shields.io/badge/Version-1.9-blue.svg)](https://github.com/Belfagor2005/CrashlogViewer)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Python package](https://github.com/Belfagor2005/CrashlogViewer/actions/workflows/pylint.yml/badge.svg)](https://github.com/Belfagor2005/CrashlogViewer/actions/workflows/pylint.yml) 
+[![Donate](https://img.shields.io/badge/_-Donate-red.svg?logo=githubsponsors&labelColor=555555&style=for-the-badge)](Maintainers.md#maintainers "Donate")
+
+![Screen CrashlogViewer](https://github.com/Belfagor2005/CrashlogViewer/blob/main/screen/screenshot.png?raw=true)
+
 ---
 
 ## 📄 Description
