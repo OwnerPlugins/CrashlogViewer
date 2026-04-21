@@ -5,7 +5,7 @@
 [![Version](https://img.shields.io/badge/Version-1.9-blue.svg)](https://github.com/Belfagor2005/CrashlogViewer)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Python package](https://github.com/Belfagor2005/CrashlogViewer/actions/workflows/pylint.yml/badge.svg)](https://github.com/Belfagor2005/CrashlogViewer/actions/workflows/pylint.yml) 
-[![Donate](https://img.shields.io/badge/_-Donate-red.svg?logo=githubsponsors&labelColor=555555&style=for-the-badge)](Maintainers.md#maintainers "Donate")
+[![Donate](https://img.shields.io/badge/_-Donate-red.svg?logo=githubsponsors&labelColor=555555&style=for-the-badge)](https://ko-fi.com/lululla)
 
 ![Screen CrashlogViewer](https://github.com/Belfagor2005/CrashlogViewer/blob/main/screen/screenshot.png?raw=true)
 
