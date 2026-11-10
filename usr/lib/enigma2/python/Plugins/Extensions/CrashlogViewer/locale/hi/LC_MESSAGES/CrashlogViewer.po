@@ -22,8 +22,14 @@ msgstr "बंद करना"
 msgid "Crashlog Viewer"
 msgstr "क्रैशलॉग व्यूअर"
 
+msgid "Date"
+msgstr "तारीख"
+
 msgid "Deleted %d files"
 msgstr "%d फ़ाइलें हटा दी गईं"
+
+msgid "Developer"
+msgstr "डेवलपर"
 
 msgid "Error Only"
 msgstr "केवल त्रुटि"
@@ -39,6 +45,9 @@ msgstr "फ़ाइल पहले ही हटा दी गई है"
 
 msgid "Full Log"
 msgstr "पूर्ण लॉग"
+
+msgid "Modifier"
+msgstr "संशोधक"
 
 msgid "No crash logs found"
 msgstr "कोई क्रैश लॉग नहीं मिला"
@@ -64,6 +73,15 @@ msgstr "सभी हटाएं"
 msgid "Removed: %s"
 msgstr "हटाया गया: %s"
 
+msgid "Size"
+msgstr "आकार"
+
+msgid "Update from"
+msgstr "से अद्यतन करें"
+
+msgid "Version"
+msgstr "संस्करण"
+
 msgid "View"
 msgstr "देखना"
 
@@ -72,21 +90,3 @@ msgstr "क्रैशलॉग फ़ाइल देखें: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "देखें | क्रैशलॉग फ़ाइलें हटाएँ"
-
-#~ msgid "Date"
-#~ msgstr "तारीख"
-
-#~ msgid "Developer"
-#~ msgstr "डेवलपर"
-
-#~ msgid "Modifier"
-#~ msgstr "संशोधक"
-
-#~ msgid "Size"
-#~ msgstr "आकार"
-
-#~ msgid "Update from"
-#~ msgstr "से अद्यतन करें"
-
-#~ msgid "Version"
-#~ msgstr "संस्करण"

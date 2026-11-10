@@ -22,8 +22,14 @@ msgstr "近い"
 msgid "Crashlog Viewer"
 msgstr "クラッシュログビューア"
 
+msgid "Date"
+msgstr "日付"
+
 msgid "Deleted %d files"
 msgstr "%d ファイルを削除しました"
+
+msgid "Developer"
+msgstr "開発者"
 
 msgid "Error Only"
 msgstr "エラーのみ"
@@ -39,6 +45,9 @@ msgstr "ファイルはすでに削除されています"
 
 msgid "Full Log"
 msgstr "完全なログ"
+
+msgid "Modifier"
+msgstr "修飾子"
 
 msgid "No crash logs found"
 msgstr "クラッシュログは見つかりませんでした"
@@ -64,6 +73,15 @@ msgstr "すべて削除"
 msgid "Removed: %s"
 msgstr "削除されました: %s"
 
+msgid "Size"
+msgstr "サイズ"
+
+msgid "Update from"
+msgstr "更新元"
+
+msgid "Version"
+msgstr "バージョン"
+
 msgid "View"
 msgstr "ビュー"
 
@@ -72,21 +90,3 @@ msgstr "クラッシュログ ファイルを表示: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "見る |クラッシュログファイルを削除する"
-
-#~ msgid "Date"
-#~ msgstr "日付"
-
-#~ msgid "Developer"
-#~ msgstr "開発者"
-
-#~ msgid "Modifier"
-#~ msgstr "修飾子"
-
-#~ msgid "Size"
-#~ msgstr "サイズ"
-
-#~ msgid "Update from"
-#~ msgstr "更新元"
-
-#~ msgid "Version"
-#~ msgstr "バージョン"

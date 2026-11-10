@@ -22,8 +22,14 @@ msgstr "Close"
 msgid "Crashlog Viewer"
 msgstr "Crashlog Viewer"
 
+msgid "Date"
+msgstr "Date"
+
 msgid "Deleted %d files"
 msgstr "Deleted %d files"
+
+msgid "Developer"
+msgstr "Developer"
 
 msgid "Error Only"
 msgstr "Error Only"
@@ -39,6 +45,9 @@ msgstr "File already removed"
 
 msgid "Full Log"
 msgstr "Full Log"
+
+msgid "Modifier"
+msgstr "Modifier"
 
 msgid "No crash logs found"
 msgstr "No crash logs found"
@@ -64,6 +73,15 @@ msgstr "Remove All"
 msgid "Removed: %s"
 msgstr "Removed: %s"
 
+msgid "Size"
+msgstr "Size"
+
+msgid "Update from"
+msgstr "Update from"
+
+msgid "Version"
+msgstr "Version"
+
 msgid "View"
 msgstr "View"
 
@@ -72,21 +90,3 @@ msgstr "View Crashlog file: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "View | Remove Crashlog files"
-
-#~ msgid "Date"
-#~ msgstr "Date"
-
-#~ msgid "Developer"
-#~ msgstr "Developer"
-
-#~ msgid "Modifier"
-#~ msgstr "Modifier"
-
-#~ msgid "Size"
-#~ msgstr "Size"
-
-#~ msgid "Update from"
-#~ msgstr "Update from"
-
-#~ msgid "Version"
-#~ msgstr "Version"

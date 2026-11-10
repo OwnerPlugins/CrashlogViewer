@@ -22,8 +22,14 @@ msgstr "닫다"
 msgid "Crashlog Viewer"
 msgstr "크래시로그 뷰어"
 
+msgid "Date"
+msgstr "날짜"
+
 msgid "Deleted %d files"
 msgstr "%d개의 파일을 삭제했습니다."
+
+msgid "Developer"
+msgstr "개발자"
 
 msgid "Error Only"
 msgstr "오류만"
@@ -39,6 +45,9 @@ msgstr "파일이 이미 삭제되었습니다."
 
 msgid "Full Log"
 msgstr "전체 로그"
+
+msgid "Modifier"
+msgstr "수정자"
 
 msgid "No crash logs found"
 msgstr "충돌 로그를 찾을 수 없습니다."
@@ -64,6 +73,15 @@ msgstr "모두 제거"
 msgid "Removed: %s"
 msgstr "제거됨: %s"
 
+msgid "Size"
+msgstr "크기"
+
+msgid "Update from"
+msgstr "다음에서 업데이트"
+
+msgid "Version"
+msgstr "버전"
+
 msgid "View"
 msgstr "보다"
 
@@ -72,21 +90,3 @@ msgstr "충돌 로그 파일 보기: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "보기 | Crashlog 파일 제거"
-
-#~ msgid "Date"
-#~ msgstr "날짜"
-
-#~ msgid "Developer"
-#~ msgstr "개발자"
-
-#~ msgid "Modifier"
-#~ msgstr "수정자"
-
-#~ msgid "Size"
-#~ msgstr "크기"
-
-#~ msgid "Update from"
-#~ msgstr "다음에서 업데이트"
-
-#~ msgid "Version"
-#~ msgstr "버전"

@@ -22,8 +22,14 @@ msgstr "关闭"
 msgid "Crashlog Viewer"
 msgstr "崩溃日志查看器"
 
+msgid "Date"
+msgstr "日期"
+
 msgid "Deleted %d files"
 msgstr "已删除 %d 个文件"
+
+msgid "Developer"
+msgstr "开发商"
 
 msgid "Error Only"
 msgstr "仅错误"
@@ -39,6 +45,9 @@ msgstr "文件已删除"
 
 msgid "Full Log"
 msgstr "完整日志"
+
+msgid "Modifier"
+msgstr "修饰符"
 
 msgid "No crash logs found"
 msgstr "未找到崩溃日志"
@@ -64,6 +73,15 @@ msgstr "全部删除"
 msgid "Removed: %s"
 msgstr "已删除：%s"
 
+msgid "Size"
+msgstr "尺寸"
+
+msgid "Update from"
+msgstr "更新自"
+
+msgid "Version"
+msgstr "版本"
+
 msgid "View"
 msgstr "看法"
 
@@ -72,21 +90,3 @@ msgstr "查看崩溃日志文件：%s"
 
 msgid "View | Remove Crashlog files"
 msgstr "查看 |删除崩溃日志文件"
-
-#~ msgid "Date"
-#~ msgstr "日期"
-
-#~ msgid "Developer"
-#~ msgstr "开发商"
-
-#~ msgid "Modifier"
-#~ msgstr "修饰符"
-
-#~ msgid "Size"
-#~ msgstr "尺寸"
-
-#~ msgid "Update from"
-#~ msgstr "更新自"
-
-#~ msgid "Version"
-#~ msgstr "版本"

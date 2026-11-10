@@ -22,8 +22,14 @@ msgstr "Kapat"
 msgid "Crashlog Viewer"
 msgstr "Crashlog  Viewer"
 
+msgid "Date"
+msgstr "Tarih"
+
 msgid "Deleted %d files"
 msgstr "%d dosya silindi"
+
+msgid "Developer"
+msgstr "Geliştirici"
 
 msgid "Error Only"
 msgstr "Yalnızca Hata"
@@ -39,6 +45,9 @@ msgstr "Kaldırma hatası"
 
 msgid "Full Log"
 msgstr "Tam Günlük"
+
+msgid "Modifier"
+msgstr "Değiştirici"
 
 msgid "No crash logs found"
 msgstr "Kilitlenme günlüğü bulunamadı"
@@ -64,6 +73,15 @@ msgstr "Hepsini Kaldır"
 msgid "Removed: %s"
 msgstr "%s kaldırıldı."
 
+msgid "Size"
+msgstr "Boyut"
+
+msgid "Update from"
+msgstr "Şuradan güncelle:"
+
+msgid "Version"
+msgstr "Sürüm"
+
 msgid "View"
 msgstr "Görüntüle"
 
@@ -72,21 +90,3 @@ msgstr "Crashlog dosyalarını görüntüleyin ve kaldırın"
 
 msgid "View | Remove Crashlog files"
 msgstr "Crashlog dosyalarını görüntüleyin ve kaldırın"
-
-#~ msgid "Date"
-#~ msgstr "Tarih"
-
-#~ msgid "Developer"
-#~ msgstr "Geliştirici"
-
-#~ msgid "Modifier"
-#~ msgstr "Değiştirici"
-
-#~ msgid "Size"
-#~ msgstr "Boyut"
-
-#~ msgid "Update from"
-#~ msgstr "Şuradan güncelle:"
-
-#~ msgid "Version"
-#~ msgstr "Sürüm"

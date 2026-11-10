@@ -11,7 +11,13 @@ msgstr ""
 msgid "Crashlog Viewer"
 msgstr ""
 
+msgid "Date"
+msgstr ""
+
 msgid "Deleted %d files"
+msgstr ""
+
+msgid "Developer"
 msgstr ""
 
 msgid "Error Only"
@@ -27,6 +33,9 @@ msgid "File already removed"
 msgstr ""
 
 msgid "Full Log"
+msgstr ""
+
+msgid "Modifier"
 msgstr ""
 
 msgid "No crash logs found"
@@ -51,6 +60,15 @@ msgid "Remove All"
 msgstr ""
 
 msgid "Removed: %s"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Update from"
+msgstr ""
+
+msgid "Version"
 msgstr ""
 
 msgid "View"

@@ -22,8 +22,14 @@ msgstr "Đóng"
 msgid "Crashlog Viewer"
 msgstr "Trình xem nhật ký sự cố"
 
+msgid "Date"
+msgstr "Ngày"
+
 msgid "Deleted %d files"
 msgstr "Đã xóa tệp %d"
+
+msgid "Developer"
+msgstr "Nhà phát triển"
 
 msgid "Error Only"
 msgstr "Chỉ có lỗi"
@@ -39,6 +45,9 @@ msgstr "Tệp đã bị xóa"
 
 msgid "Full Log"
 msgstr "Nhật ký đầy đủ"
+
+msgid "Modifier"
+msgstr "Công cụ sửa đổi"
 
 msgid "No crash logs found"
 msgstr "Không tìm thấy nhật ký sự cố"
@@ -64,6 +73,15 @@ msgstr "Xóa tất cả"
 msgid "Removed: %s"
 msgstr "Đã xóa: %s"
 
+msgid "Size"
+msgstr "Kích cỡ"
+
+msgid "Update from"
+msgstr "Cập nhật từ"
+
+msgid "Version"
+msgstr "Phiên bản"
+
 msgid "View"
 msgstr "Xem"
 
@@ -72,21 +90,3 @@ msgstr "Xem tệp Crashlog: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "Xem | Xóa tệp Crashlog"
-
-#~ msgid "Date"
-#~ msgstr "Ngày"
-
-#~ msgid "Developer"
-#~ msgstr "Nhà phát triển"
-
-#~ msgid "Modifier"
-#~ msgstr "Công cụ sửa đổi"
-
-#~ msgid "Size"
-#~ msgstr "Kích cỡ"
-
-#~ msgid "Update from"
-#~ msgstr "Cập nhật từ"
-
-#~ msgid "Version"
-#~ msgstr "Phiên bản"

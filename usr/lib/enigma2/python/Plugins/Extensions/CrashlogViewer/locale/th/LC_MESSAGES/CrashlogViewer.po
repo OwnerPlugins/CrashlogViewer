@@ -22,8 +22,14 @@ msgstr "ปิด"
 msgid "Crashlog Viewer"
 msgstr "โปรแกรมดู Crashlog"
 
+msgid "Date"
+msgstr "วันที่"
+
 msgid "Deleted %d files"
 msgstr "ลบ %d ไฟล์แล้ว"
+
+msgid "Developer"
+msgstr "นักพัฒนา"
 
 msgid "Error Only"
 msgstr "ข้อผิดพลาดเท่านั้น"
@@ -39,6 +45,9 @@ msgstr "ไฟล์ถูกลบออกไปแล้ว"
 
 msgid "Full Log"
 msgstr "บันทึกแบบเต็ม"
+
+msgid "Modifier"
+msgstr "ตัวแก้ไข"
 
 msgid "No crash logs found"
 msgstr "ไม่พบบันทึกข้อขัดข้อง"
@@ -64,6 +73,15 @@ msgstr "ลบทั้งหมด"
 msgid "Removed: %s"
 msgstr "ลบออก: %s"
 
+msgid "Size"
+msgstr "ขนาด"
+
+msgid "Update from"
+msgstr "อัพเดตจาก"
+
+msgid "Version"
+msgstr "เวอร์ชัน"
+
 msgid "View"
 msgstr "ดู"
 
@@ -72,21 +90,3 @@ msgstr "ดูไฟล์ Crashlog: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "ดู | ลบไฟล์ Crashlog"
-
-#~ msgid "Date"
-#~ msgstr "วันที่"
-
-#~ msgid "Developer"
-#~ msgstr "นักพัฒนา"
-
-#~ msgid "Modifier"
-#~ msgstr "ตัวแก้ไข"
-
-#~ msgid "Size"
-#~ msgstr "ขนาด"
-
-#~ msgid "Update from"
-#~ msgstr "อัพเดตจาก"
-
-#~ msgid "Version"
-#~ msgstr "เวอร์ชัน"

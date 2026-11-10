@@ -22,8 +22,14 @@ msgstr "Закрыть"
 msgid "Crashlog Viewer"
 msgstr "Crashlog Утилита"
 
+msgid "Date"
+msgstr "Дата"
+
 msgid "Deleted %d files"
 msgstr "Удалены %d файлов"
+
+msgid "Developer"
+msgstr "Разработчик"
 
 msgid "Error Only"
 msgstr "Только ошибка"
@@ -39,6 +45,9 @@ msgstr "Файл уже удален"
 
 msgid "Full Log"
 msgstr "Полный журнал"
+
+msgid "Modifier"
+msgstr "Модификатор"
 
 msgid "No crash logs found"
 msgstr "Журналы сбоев не найдены"
@@ -64,6 +73,15 @@ msgstr "Удалить все"
 msgid "Removed: %s"
 msgstr "Удален %s"
 
+msgid "Size"
+msgstr "Размер"
+
+msgid "Update from"
+msgstr "Обновление от"
+
+msgid "Version"
+msgstr "Версия"
+
 msgid "View"
 msgstr "Просмотреть"
 
@@ -72,21 +90,3 @@ msgstr "просмотр и удаление файлов креша"
 
 msgid "View | Remove Crashlog files"
 msgstr "просмотр и удаление файлов креша"
-
-#~ msgid "Date"
-#~ msgstr "Дата"
-
-#~ msgid "Developer"
-#~ msgstr "Разработчик"
-
-#~ msgid "Modifier"
-#~ msgstr "Модификатор"
-
-#~ msgid "Size"
-#~ msgstr "Размер"
-
-#~ msgid "Update from"
-#~ msgstr "Обновление от"
-
-#~ msgid "Version"
-#~ msgstr "Версия"

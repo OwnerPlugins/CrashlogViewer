@@ -22,8 +22,14 @@ msgstr "بستن"
 msgid "Crashlog Viewer"
 msgstr "Crashlog Viewer"
 
+msgid "Date"
+msgstr "تاریخ"
+
 msgid "Deleted %d files"
 msgstr "%d فایل حذف شد"
+
+msgid "Developer"
+msgstr "توسعه دهنده"
 
 msgid "Error Only"
 msgstr "فقط خطا"
@@ -39,6 +45,9 @@ msgstr "فایل قبلاً حذف شده است"
 
 msgid "Full Log"
 msgstr "ثبت کامل"
+
+msgid "Modifier"
+msgstr "اصلاح کننده"
 
 msgid "No crash logs found"
 msgstr "هیچ گزارش خرابی یافت نشد"
@@ -64,6 +73,15 @@ msgstr "حذف همه"
 msgid "Removed: %s"
 msgstr "حذف شده: %s"
 
+msgid "Size"
+msgstr "اندازه"
+
+msgid "Update from"
+msgstr "به روز رسانی از"
+
+msgid "Version"
+msgstr "نسخه"
+
 msgid "View"
 msgstr "مشاهده کنید"
 
@@ -72,21 +90,3 @@ msgstr "مشاهده فایل Crashlog: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "مشاهده | فایل های Crashlog را حذف کنید"
-
-#~ msgid "Date"
-#~ msgstr "تاریخ"
-
-#~ msgid "Developer"
-#~ msgstr "توسعه دهنده"
-
-#~ msgid "Modifier"
-#~ msgstr "اصلاح کننده"
-
-#~ msgid "Size"
-#~ msgstr "اندازه"
-
-#~ msgid "Update from"
-#~ msgstr "به روز رسانی از"
-
-#~ msgid "Version"
-#~ msgstr "نسخه"

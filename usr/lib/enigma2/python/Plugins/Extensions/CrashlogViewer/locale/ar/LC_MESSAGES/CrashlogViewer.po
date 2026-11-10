@@ -22,8 +22,14 @@ msgstr "يغلق"
 msgid "Crashlog Viewer"
 msgstr "عارض سجل الأعطال"
 
+msgid "Date"
+msgstr "تاريخ"
+
 msgid "Deleted %d files"
 msgstr "تم حذف %d من الملفات"
+
+msgid "Developer"
+msgstr "المطور"
 
 msgid "Error Only"
 msgstr "خطأ فقط"
@@ -39,6 +45,9 @@ msgstr "تمت إزالة الملف بالفعل"
 
 msgid "Full Log"
 msgstr "سجل كامل"
+
+msgid "Modifier"
+msgstr "المعدل"
 
 msgid "No crash logs found"
 msgstr "لم يتم العثور على سجلات الأعطال"
@@ -64,6 +73,15 @@ msgstr "إزالة الكل"
 msgid "Removed: %s"
 msgstr "تمت الإزالة: %s"
 
+msgid "Size"
+msgstr "مقاس"
+
+msgid "Update from"
+msgstr "التحديث من"
+
+msgid "Version"
+msgstr "إصدار"
+
 msgid "View"
 msgstr "منظر"
 
@@ -72,21 +90,3 @@ msgstr "عرض ملف سجل الأعطال: %s"
 
 msgid "View | Remove Crashlog files"
 msgstr "عرض | إزالة ملفات Crashlog"
-
-#~ msgid "Date"
-#~ msgstr "تاريخ"
-
-#~ msgid "Developer"
-#~ msgstr "المطور"
-
-#~ msgid "Modifier"
-#~ msgstr "المعدل"
-
-#~ msgid "Size"
-#~ msgstr "مقاس"
-
-#~ msgid "Update from"
-#~ msgstr "التحديث من"
-
-#~ msgid "Version"
-#~ msgstr "إصدار"
