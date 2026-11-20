@@ -262,10 +262,11 @@ class CrashLogScreen(Screen):
                 date_str = time.strftime(
                     "%Y-%m-%d %H:%M", time.localtime(mtime))
 
-                display_tuple = (basename(path),
-                                 f"{_('Size')}: {size_str} - {_('Date')}: {date_str}",
-                                 icon,
-                                 path)
+                display_tuple = (
+                    basename(path),
+                    f"{_('Size')}: {size_str} - {_('Date')}: {date_str}",
+                    icon,
+                    path)
                 self.list.append(display_tuple)
             except Exception as e:
                 print(f"Error reading {path}: {e}")
